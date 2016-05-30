@@ -1,0 +1,20 @@
+<ion-view view-title="New restaurant">
+  <ion-content>
+    <div class="list list-inset">
+
+	  <label class="item item-input">
+	    <input type="text" ng-model="name" placeholder="Name" name="name">
+	  </label>
+	  <label class="item item-input">
+	    <input type="text" ng-model="address" placeholder="Address" name="address">
+	  </label>
+	  <label class="item item-input">
+	    <input type="text" ng-model="info" placeholder="Info" name="info">
+	  </label>
+	  <label class="item item-input">
+	    <input type="text" ng-model="img" placeholder="img name (plankan.jpg)" name="img">
+	  </label>
+	 <button class="button button-positive button-block" ng-click="postFunk(name, address, info, img)">Lägg till</button>
+	</div>
+  </ion-content>
+</ion-view>

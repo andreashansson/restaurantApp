@@ -1,0 +1,21 @@
+<ion-view view-title="Restaurant">
+  <ion-content>
+	<div class="list card">
+	  <div class="item item-avatar">
+	    <img src="img/{{resById.img}}">
+	    <h2>{{resById.name}}</h2>
+
+	  </div>
+	  <div class="item item-body">
+	    <img class="full-image" src="img/{{resById.img}}" ng-dblclick="addLike()">
+	    <p>{{resById.info}}</p>
+	   
+	    <p>
+	      <a class="subdued" ng-click="addLike()">{{resById.likes}} Likes</a>
+	      <a href="#" class="subdued">5 Comments</a>
+		  <a class="icon ion-heart" ng-click="addLike()"></a>
+		</p>
+	  </div>
+	</div>  
+	</ion-content>
+</ion-view>
