@@ -1,6 +1,6 @@
 angular.module('starter.controllers', [])
 
-.controller('AppCtrl', function($scope, $ionicModal, $timeout) {
+.controller('AppCtrl', function($http, $scope, $ionicModal, $timeout) {
 
   // With the new view caching in Ionic, Controllers are only called
   // when they are recreated or on app start, instead of every page change.
@@ -39,51 +39,14 @@ angular.module('starter.controllers', [])
       $scope.closeLogin();
     }, 1000);
   };
+
 })
 
-.controller('RestaurantsCtrl', function($http, $scope) {
+.controller('RestaurantsCtrl', function($http, $scope, refresh) {
 
 //här måste vi ju få med oss allt från formuläret och slänga in i objektet vi skickar.
 
-var refresh = function() {
-
-  $http.get('http://localhost:3050/api/restaurants').success(function(response) {
-    console.log("Jag laddar om mig!");
-    $scope.restaurants = response;
-  });
-}
-
-var reload = function() {
-
-  $http({
-
-        method: 'GET',
-        url: 'http://localhost:3050/api/restaurants'
-
-      }).then(function successCallback(response) {
-          
-        //console.log(response.data);
-
-        $scope.restaurants = response.data;
-
-        }, function errorCallback(response) {
-
-        // called asynchronously if an error occurs
-        // or server returns response with an error status.
-        alert("ERROR: " + response.data);
-
-    });
-
-}
-
-$scope.postFunk = function(name, address, info, img) {
-
-  $http.post('http://localhost:3050/api/newres', {name: name, address: address, info: info, img: img});
-
-  refresh();
-  reload();
-
-}
+function refresh() {
 
   $http({
 
@@ -104,13 +67,48 @@ $scope.postFunk = function(name, address, info, img) {
 
   });
 
+}
+
+$scope.postFunk = function(name, address, info, img) {
+
+  $scope.restaurants = {name: name, address: address, info: info, img: img}
+
+  $http.post('http://localhost:3050/api/newres', {name: name, address: address, info: info, img: img});
+
+}
+
+  refresh();
+ 
 })
 
-.controller('resByIdCtrl', function($http, $scope, $stateParams) {
+.controller('editByIdCtrl', function($http, $scope, $stateParams) {
 
-var id = $stateParams.resById;
+  function refresh() {
 
-$http({
+  $http({
+
+      method: 'GET',
+      url: 'http://localhost:3050/api/restaurants'
+
+    }).then(function successCallback(response) {
+        
+      //console.log(response.data);
+
+      $scope.restaurants = response.data;
+
+      }, function errorCallback(response) {
+
+      // called asynchronously if an error occurs
+      // or server returns response with an error status.
+      alert("ERROR: " + response.data);
+
+  });
+
+}
+
+  var id = $stateParams.editById;
+
+    $http({
 
       method: 'GET',
       url: 'http://localhost:3050/api/restaurants/' + id
@@ -128,5 +126,59 @@ $http({
       alert("ERROR: " + response.data);
 
     });
+
+    $scope.updateSingle = function(id, name, address, info, img) {
+
+      var obj = {
+
+        name: name,
+        address: address,
+        info: info,
+        img: img
+
+      }
+
+      $scope.resById = obj;
+
+      var urlid = 'http://localhost:3050/api/restaurants/' + id;
+
+      $http.put(urlid, obj);
+
+    }
+
+    refresh();
+
+})
+
+.controller('resByIdCtrl', function($http, $scope, $stateParams) {
+
+  var id = $stateParams.resById;
+
+  $scope.addLike = function() {
+
+    $scope.resById.likes++;
+    var likes = $scope.resById.likes;
+    $http.post('http://localhost:3050/api/updatelikes', {id: id, likes: likes});
+
+  }
+
+  $http({
+
+    method: 'GET',
+    url: 'http://localhost:3050/api/restaurants/' + id
+
+  }).then(function successCallback(response) {
+        
+    console.log(response.data);
+
+    $scope.resById = response.data[0];
+
+    }, function errorCallback(response) {
+
+    // called asynchronously if an error occurs
+    // or server returns response with an error status.
+    alert("ERROR: " + response.data);
+
+  });
     
 });

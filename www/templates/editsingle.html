@@ -1,0 +1,21 @@
+<ion-view view-title="resById.name">
+  <ion-content>
+    <div class="list list-inset">
+    <form>
+	  <label class="item item-input">
+	    <input type="text" ng-model="resById.name" placeholder="Name" name="resById.name">
+	  </label>
+	  <label class="item item-input">
+	    <input type="text" ng-model="resById.address" placeholder="Address" name="resById.address">
+	  </label>
+	  <label class="item item-input">
+	    <input type="text" ng-model="resById.info" placeholder="Info" name="resById.info">
+	  </label>
+	  <label class="item item-input">
+	    <input type="text" ng-model="resById.img" placeholder="img name (plankan.jpg)" name="resById.img">
+	  </label>
+	 <button class="button button-positive button-block" ng-click="updateSingle(resById._id, resById.name, resById.address, resById.info, resById.img)">Uppdatera</button>
+	 </form>
+	</div>
+  </ion-content>
+</ion-view>

@@ -4,7 +4,7 @@
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'starter.controllers'])
+angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
@@ -52,32 +52,53 @@ angular.module('starter', ['ionic', 'starter.controllers'])
     }
   })
 
-  .state('app.search', {
-    url: '/search',
+  .state('app.about', {
+    url: '/about',
     views: {
       'menuContent': {
-        templateUrl: 'templates/search.html'
+        templateUrl: 'templates/about.html'
       }
     }
   })
 
   .state('app.browse', {
-      url: '/browse',
-      views: {
-        'menuContent': {
-          templateUrl: 'templates/browse.html'
-        }
+    url: '/browse',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/browse.html'
       }
-    })
-    .state('app.restaurants', {
-      url: '/restaurants',
-      views: {
-        'menuContent': {
-          templateUrl: 'templates/restaurants.html',
-          controller: 'RestaurantsCtrl'
-        }
+    }
+  })
+
+  .state('app.editres', {
+    url: '/editres',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/editres.html',
+        controller: 'RestaurantsCtrl'
       }
-    })
+    }
+  })
+
+   .state('app.editsingle', {
+    url: '/editres/:editById',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/editsingle.html',
+        controller: 'editByIdCtrl'
+      }
+    }
+  })
+
+  .state('app.restaurants', {
+    url: '/restaurants',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/restaurants.html',
+        controller: 'RestaurantsCtrl'
+      }
+    }
+  })
 
   .state('app.single', {
     url: '/restaurants/:resById',
@@ -87,7 +108,7 @@ angular.module('starter', ['ionic', 'starter.controllers'])
         controller: 'resByIdCtrl'
       }
     }
-  });
+  })
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/app/login');
 });
