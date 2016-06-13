@@ -4,7 +4,7 @@
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
+angular.module('starter', ['ionic', 'firebase', 'starter.controllers', 'starter.services'])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
@@ -47,7 +47,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
     views: {
       'menuContent': {
         templateUrl: 'templates/newres.html',
-        controller: 'RestaurantsCtrl'
+        controller: 'connectCtrl'
       }
     }
   })
@@ -70,22 +70,12 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
     }
   })
 
-  .state('app.editres', {
-    url: '/editres',
+  .state('app.confirmed', {
+    url: '/confirmed',
     views: {
       'menuContent': {
-        templateUrl: 'templates/editres.html',
-        controller: 'RestaurantsCtrl'
-      }
-    }
-  })
-
-   .state('app.editsingle', {
-    url: '/editres/:editById',
-    views: {
-      'menuContent': {
-        templateUrl: 'templates/editsingle.html',
-        controller: 'editByIdCtrl'
+        templateUrl: 'templates/confirmed.html',
+        controller: 'connectCtrl'
       }
     }
   })
@@ -95,7 +85,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
     views: {
       'menuContent': {
         templateUrl: 'templates/restaurants.html',
-        controller: 'RestaurantsCtrl'
+        controller: 'connectCtrl'
       }
     }
   })
@@ -105,7 +95,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
     views: {
       'menuContent': {
         templateUrl: 'templates/restaurant.html',
-        controller: 'resByIdCtrl'
+        controller: 'connectCtrl'
       }
     }
   })

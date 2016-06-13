@@ -1,14 +1,40 @@
 <ion-view view-title="Restaurant">
   <ion-content>
     <ion-list>
-      <ion-item ng-repeat="restaurant in restaurants">
+
+      <ion-item class="item" ng-repeat="restaurant in getRest">
 	    <div class="list">
-	      <a class="item item-thumbnail-left" href="#/app/restaurants/{{restaurant._id}}">
+	      <a class="item item-thumbnail-left" href="#/app/restaurants/{{restaurant.$id}}">
 	      	<img src="img/{{restaurant.img}}">
 	      	<h2>{{restaurant.name}}</h2>
 	      	<p>Address: {{restaurant.address}}</p>
-	      	<p>Betyg: {{restaurant.rate}}</p>
+	      	<div class="icon ion-checkmark-circled" ng-show="restaurant.confirmed"></div>
+
+
 	      </a>
+	      <button class="button-delete" ng-click="delete(restaurant.$id)">Delete</button>
+	      <button class="button-edit" ng-click="showEditForm=!showEditForm; edit()">Edit</button>
+	      <button class="button-confirm" ng-click="confirm($index, restaurant.$id)">Confirm</button>
+
+	      <form ng-show="showEditForm">
+		  
+		      <label class="item item-input">
+		    	<input type="text" ng-model="restaurant.name" placeholder="Name" name="restaurant.name">
+		  	  </label>
+		  	  <label class="item item-input">
+		    	<input type="text" ng-model="restaurant.address" placeholder="Address" name="restaurant.address">
+		  	  </label>
+		  	  <label class="item item-input">
+		    	<input type="text" ng-model="restaurant.info" placeholder="Info" name="restaurant.info">
+		  	  </label>
+		  	  <label class="item item-input">
+		    	<input type="text" ng-model="restaurant.img" placeholder="img name (plankan.jpg)" name="restaurant.img">
+		  	  </label>
+		  	  <ion-checkbox ng-model="restaurant.confirmed" name="restaurant.confirmed"></ion-checkbox>
+
+		 	  <button class="button button-balanced button-block" ng-click="save(restaurant.$id, restaurant.name, restaurant.address, restaurant.info, restaurant.img, restaurant.confirmed)">Save</button>
+		  
+		  </form>
 	    </div>
       </ion-item>
     </ion-list>

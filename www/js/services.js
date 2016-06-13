@@ -1,27 +1,26 @@
 angular.module('starter.services', [])
 
+.factory('Connect', function($firebaseArray) {
 
-.service('refresh', function() {
+	var ref = new Firebase('https://restaurantsappsylt.firebaseio.com/');
 
-	this.refreshFunc = function() {
+	var rest = $firebaseArray(ref);
 
-		$http({
+	var Connect = {
 
-	      method: 'GET',
-	      url: 'http://localhost:3050/api/restaurants'
+		all: rest,
+		delete: ref,
+		update: ref,
+		get: function(itemId) {
 
-	    }).then(function successCallback(response) {
-	        
-	      //console.log(response.data);
+			return rest.$getRecord(itemId);
+			
+		}
 
-	      $scope.restaurants = response.data;
+	};
 
-	      }, function errorCallback(response) {
+	return Connect;
 
-	      // called asynchronously if an error occurs
-	      // or server returns response with an error status.
-	      alert("ERROR: " + response.data);
-
-	  });
-	}
-})
+	//return $firebaseArray(ref);
+	
+});

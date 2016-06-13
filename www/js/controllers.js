@@ -42,143 +42,107 @@ angular.module('starter.controllers', [])
 
 })
 
-.controller('RestaurantsCtrl', function($http, $scope, refresh) {
+.controller('connectCtrl', function($scope, $state, Connect, $stateParams) {
 
-//här måste vi ju få med oss allt från formuläret och slänga in i objektet vi skickar.
+  $scope.getRest = Connect.all;
 
-function refresh() {
+  $scope.selectedRest = $stateParams.resById;
 
-  $http({
+  $scope.singleRest = Connect.get($stateParams.resById);
 
-      method: 'GET',
-      url: 'http://localhost:3050/api/restaurants'
+  $scope.showEditForm = false;
 
-    }).then(function successCallback(response) {
-        
-      //console.log(response.data);
+  $scope.delete = function(id) {
 
-      $scope.restaurants = response.data;
-
-      }, function errorCallback(response) {
-
-      // called asynchronously if an error occurs
-      // or server returns response with an error status.
-      alert("ERROR: " + response.data);
-
-  });
-
-}
-
-$scope.postFunk = function(name, address, info, img) {
-
-  $scope.restaurants = {name: name, address: address, info: info, img: img}
-
-  $http.post('http://localhost:3050/api/newres', {name: name, address: address, info: info, img: img});
-
-}
-
-  refresh();
- 
-})
-
-.controller('editByIdCtrl', function($http, $scope, $stateParams) {
-
-  function refresh() {
-
-  $http({
-
-      method: 'GET',
-      url: 'http://localhost:3050/api/restaurants'
-
-    }).then(function successCallback(response) {
-        
-      //console.log(response.data);
-
-      $scope.restaurants = response.data;
-
-      }, function errorCallback(response) {
-
-      // called asynchronously if an error occurs
-      // or server returns response with an error status.
-      alert("ERROR: " + response.data);
-
-  });
-
-}
-
-  var id = $stateParams.editById;
-
-    $http({
-
-      method: 'GET',
-      url: 'http://localhost:3050/api/restaurants/' + id
-
-    }).then(function successCallback(response) {
-        
-      console.log(response.data);
-
-      $scope.resById = response.data[0];
-
-      }, function errorCallback(response) {
-
-      // called asynchronously if an error occurs
-      // or server returns response with an error status.
-      alert("ERROR: " + response.data);
-
-    });
-
-    $scope.updateSingle = function(id, name, address, info, img) {
-
-      var obj = {
-
-        name: name,
-        address: address,
-        info: info,
-        img: img
-
-      }
-
-      $scope.resById = obj;
-
-      var urlid = 'http://localhost:3050/api/restaurants/' + id;
-
-      $http.put(urlid, obj);
-
-    }
-
-    refresh();
-
-})
-
-.controller('resByIdCtrl', function($http, $scope, $stateParams) {
-
-  var id = $stateParams.resById;
-
-  $scope.addLike = function() {
-
-    $scope.resById.likes++;
-    var likes = $scope.resById.likes;
-    $http.post('http://localhost:3050/api/updatelikes', {id: id, likes: likes});
+    var deleteById = new Firebase(Connect.delete + id);
+    deleteById.remove();
 
   }
 
-  $http({
+  $scope.edit = function() {
 
-    method: 'GET',
-    url: 'http://localhost:3050/api/restaurants/' + id
+    console.log(Connect.all);
 
-  }).then(function successCallback(response) {
-        
-    console.log(response.data);
+  }
 
-    $scope.resById = response.data[0];
+  $scope.save = function(id, name, address, info, img, confirmed) {
 
-    }, function errorCallback(response) {
+    var saveById = new Firebase(Connect.update + id);
+    saveById.update({name: name, address: address, info: info, img: img, confirmed: confirmed});
 
-    // called asynchronously if an error occurs
-    // or server returns response with an error status.
-    alert("ERROR: " + response.data);
+  }
 
-  });
+  var likes = null;
+
+  $scope.addLike = function(id) {
+
+    likes = $scope.singleRest.likes;
+    likes++;
+
+    var updateById = new Firebase(Connect.update + id);
+    updateById.update({likes: likes});
+
+  }
+
+  $scope.confirm = function(i, id) {
+
+
+    $scope.getRest[i].confirm = true;
+    var confirmById = new Firebase(Connect.update + id);
+    confirmById.update({confirmed: true});
+
+
+  }
+
+   $scope.addRest = function(name, address, info, img) {
     
+    $scope.name = name;
+    $scope.address = address;
+    $scope.info = info;
+    $scope.img = img;
+
+    $scope.restSave = Connect.all;
+
+    $scope.restSave.$add({
+
+      name: name,
+      address: address,
+      info: info,
+      rate: 0,
+      likes: 0,
+      confirmed: false,
+      img: img
+
+    });
+    
+    $scope.info = "";
+
+  }
+
+  /*
+  $scope.getRest.$loaded(function() {
+
+    if($scope.getRest.length===0) {
+
+      $scope.getRest.$add({
+
+        name: 'Plankan',
+        address: "aölskdjfs",
+        img: 'plankan.jpeg'
+
+      });
+
+      $scope.getRest.$add({
+
+        name: 'Tullen',
+        address: 'aölsdkjösldjf',
+        img: 'tullenmariaplan.jpeg'
+
+      });
+    
+    }
+
+  })
+*/
+
 });

@@ -1,1 +1,31 @@
 /* Empty. Add your own CSS if you like */
+
+.button-delete, .button-edit, .button-confirm {
+
+	width: 80px;
+	height: 25px;
+	margin-top: 15px;
+	border: 0px;
+	border-radius: 3px;
+	color: white;
+
+}
+
+.button-confirm {
+
+	background-color: green;
+
+}
+
+.button-delete {
+
+	background-color: red;
+
+}
+
+.button-edit {
+
+	background-color: #FFF333;
+
+}
+

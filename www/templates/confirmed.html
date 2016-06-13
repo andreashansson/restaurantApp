@@ -1,0 +1,16 @@
+<ion-view view-title="Restaurant">
+  <ion-content>
+    <ion-list>
+
+      <ion-item class="item" ng-repeat="restaurant in getRest">
+	    <div class="list" ng-show="restaurant.confirmed">
+	      <a class="item item-thumbnail-left" href="#/app/restaurants/{{restaurant.$id}}">
+	      	<img src="img/{{restaurant.img}}">
+	      	<h2>{{restaurant.name}}</h2>
+	      	<p>Address: {{restaurant.address}}</p>
+	      </a>
+	    </div>
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-view>
